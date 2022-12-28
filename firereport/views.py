@@ -54,7 +54,11 @@ def viewStatusDetails(request, id):
     reportcount = Firetequesthistory.objects.filter(firereport=firereport).count()
     return render(request, 'viewStatusDetails.html', locals())
 
+# admin site
+
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     totalnewequest = Firereport.objects.filter(Status__isnull=True).count()
     totalfire = Firereport.objects.all().count()
     totalreqcomplete = Firereport.objects.filter(Status="Request Completed").count()
@@ -64,30 +68,44 @@ def dashboard(request):
     return render(request, 'admin/dashboard.html', locals())
 
 def allRequest(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.all()
     return render(request, 'admin/allRequest.html',locals())
 
 def completeRequest(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.filter(Status="Request Completed")
     return render(request, 'admin/completeRequest.html', locals())
 
 def assignRequest(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.filter(Status="Assigned")
     return render(request, 'admin/assignRequest.html', locals())
 
 def teamontheway(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.filter(Status="Team On the Way")
     return render(request, 'admin/teamontheway.html', locals())
 
 def workinprogress(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.filter(Status="Fire Relief Work in Progress")
     return render(request, 'admin/workinprogress.html', locals())
 
 def newRequest(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.filter(Status__isnull=True)
     return render(request, 'admin/newRequest.html', locals())
 
 def addTeam(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     if request.method == "POST":
         teamName = request.POST['teamName']
         teamLeaderName = request.POST['teamLeaderName']
@@ -101,10 +119,14 @@ def addTeam(request):
     return render(request, 'admin/addTeam.html', locals())
 
 def manageTeam(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     teams = Teams.objects.all()
     return render(request, 'admin/manageTeam.html', locals())
 
 def dateReport(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     if request.method == "POST":
         fd = request.POST['fromDate']
         td = request.POST['toDate']
@@ -113,6 +135,8 @@ def dateReport(request):
     return render(request, 'admin/dateReport.html')
 
 def search(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     sd = None
     if request.method == "POST":
         sd = request.POST['searchdata']
@@ -123,6 +147,8 @@ def search(request):
     return render(request, 'admin/search.html', locals())
 
 def changePassword(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     error = ""
     user = request.user
     if request.method == "POST":
@@ -141,6 +167,8 @@ def changePassword(request):
     return render(request, 'admin/changePassword.html',locals())
 
 def viewRequestDetails(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.get(id=id)
     report1 = Firetequesthistory.objects.filter(firereport=firereport)
     reportcount = Firetequesthistory.objects.filter(firereport=firereport).count()
@@ -175,11 +203,15 @@ def viewRequestDetails(request, id):
 
 
 def deleteRequest(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     firereport = Firereport.objects.get(id=id)
     firereport.delete()
     return redirect('allRequest')
 
 def editTeam(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     teams = Teams.objects.get(id=id)
     if request.method == "POST":
         teamName = request.POST["teamName"]
@@ -200,6 +232,8 @@ def editTeam(request, id):
 
 
 def deleteTeam(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
     teams = Teams.objects.get(id=id)
     teams.delete()
     return redirect('manageTeam')
