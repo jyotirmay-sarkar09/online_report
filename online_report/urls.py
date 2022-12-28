@@ -16,11 +16,31 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from firereport.views import *
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name="index"),
     path('reporting/', reporting, name="reporting"),
     path('viewStatus/', viewStatus, name="viewStatus"),
     path('admin_login/', admin_login, name="admin_login"),
+    path('dashboard/', dashboard, name="dashboard"),
+    path('newRequest/', newRequest, name="newRequest"),
+    path('allRequest/', allRequest, name="allRequest"),
+    path('completeRequest/', completeRequest, name="completeRequest"),
+    path('assignRequest/', assignRequest, name="assignRequest"),
+    path('teamontheway/', teamontheway, name="teamontheway"),
+    path('workinprogress/', workinprogress, name="workinprogress"),
+    path('addTeam/', addTeam, name="addTeam"),
+    path('manageTeam/', manageTeam, name="manageTeam"),
+    path('dateReport/', dateReport, name="dateReport"),
+    path('search/', search, name="search"),
+    path('changePassword/', changePassword, name="changePassword"),
     path('viewStatusDetails/<int:id>', viewStatusDetails, name="viewStatusDetails"),
-]
+    path('viewRequestDetails/<int:id>', viewRequestDetails, name="viewRequestDetails"),
+    path('deleteRequest/<int:id>', deleteRequest, name="deleteRequest"),
+    path('editTeam/<int:id>', editTeam, name="editTeam"),
+    path('deleteTeam/<int:id>', deleteTeam, name="deleteTeam"),
+
+    path('logout/', Logout, name="logout"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
